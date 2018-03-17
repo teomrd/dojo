@@ -1,0 +1,21 @@
+{
+	"name": "dojo",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"dev": "webpack-dev-server --mode development --open",
+		"build": "webpack --mode production"
+	},
+	"author": "teomrd",
+	"license": "ISC",
+	"devDependencies": {
+		"webpack": "^4.1.1",
+		"webpack-cli": "^2.0.12",
+		"webpack-dev-server": "^3.1.1"
+	},
+	"dependencies": {
+		"html-webpack-plugin": "^3.0.6"
+	}
+}
