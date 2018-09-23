@@ -11,7 +11,7 @@ const generateGeodata = (n = 100) =>
     }));
 
 const geodata = {
-  data: generateGeodata()
+  data: generateGeodata(10000)
 };
 
 module.exports = geodata;

@@ -1,20 +1,14 @@
 const geodata = require("./geodata.js");
 
-const clusterize = geodata => {
-  return geodata.data.reduce((acc, value) => {
-    const currentCountry = value.country;
+const clusterize = geodata =>
+  geodata.data.reduce((acc, { country: currentCountry }) => {
     const findWhereExists = acc.findIndex(
       ({ country }) => country === currentCountry
     );
-
-    const existingCluster = acc.find(
-      ({ country }) => country === currentCountry
-    );
-
     const hasClusterAlreadyCreated = findWhereExists > -1;
     const cluster = {
       country: currentCountry,
-      count: hasClusterAlreadyCreated ? existingCluster.count + 1 : 1
+      count: hasClusterAlreadyCreated ? acc[findWhereExists].count + 1 : 1
     };
     if (hasClusterAlreadyCreated) {
       acc[findWhereExists] = cluster;
@@ -23,7 +17,6 @@ const clusterize = geodata => {
     }
     return acc;
   }, []);
-};
 
 clusterize(geodata);
 
