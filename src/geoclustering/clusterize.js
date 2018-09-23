@@ -17,18 +17,7 @@ const clusterize = geodata => {
       count: hasClusterAlreadyCreated ? existingCluster.count + 1 : 1
     };
     if (hasClusterAlreadyCreated) {
-      console.log(
-        "cluster exists: ",
-        hasClusterAlreadyCreated,
-        "in position: ",
-        findWhereExists,
-        "and it's: ",
-        existingCluster.country
-      );
       acc[findWhereExists] = cluster;
-
-      console.log("dsadsa===", acc[findWhereExists]);
-      // console.log(acc);
     } else {
       acc.push(cluster);
     }
