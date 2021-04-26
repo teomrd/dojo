@@ -21,8 +21,9 @@ const findElementsCombinations = (element, arr, n) =>
   findAllPossibleComposOfSize([element], arr, n);
 
 const getArrayCombinations = (arr, n) =>
-  arr.reduce((acc, curr) => {
-    const compos = findElementsCombinations(curr, arr, n);
+  arr.reduce((acc, curr, i) => {
+    const arrayToCombine = arr.slice(i + 1);
+    const compos = findElementsCombinations(curr, arrayToCombine, n);
     return [...acc, ...compos];
   }, []);
 
