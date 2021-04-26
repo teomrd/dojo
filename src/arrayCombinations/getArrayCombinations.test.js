@@ -1,7 +1,7 @@
 const {
   getArrayCombinations,
   combineOf,
-  combineAll,
+  findElementsCombinations,
 } = require("./getArrayCombinations");
 
 describe("getArrayCombinations", () => {
@@ -23,9 +23,9 @@ describe("getArrayCombinations", () => {
     });
   });
 
-  describe("combineAll", () => {
+  describe("findElementsCombinations", () => {
     it("should find all elements combinations, of a given size, with another", () => {
-      expect(combineAll("a", ["b", "c", "d", "e"], 3)).toEqual([
+      expect(findElementsCombinations("a", ["b", "c", "d", "e"], 3)).toEqual([
         ["a", "b", "c"],
         ["a", "b", "d"],
         ["a", "b", "e"],
@@ -36,16 +36,16 @@ describe("getArrayCombinations", () => {
         ["a", "d", "e"],
       ]);
 
-      expect(combineAll("a", ["b", "c", "d"], 4)).toEqual([
+      expect(findElementsCombinations("a", ["b", "c", "d"], 4)).toEqual([
         ["a", "b", "c", "d"],
       ]);
 
-      expect(combineAll("a", ["b", "c"], 2)).toEqual([
+      expect(findElementsCombinations("a", ["b", "c"], 2)).toEqual([
         ["a", "b"],
         ["a", "c"],
       ]);
 
-      expect(combineAll("a", ["b"], 1)).toEqual([]);
+      expect(findElementsCombinations("a", ["b"], 1)).toEqual(["a"]);
     });
   });
 
@@ -57,6 +57,18 @@ describe("getArrayCombinations", () => {
       ["a", "c"],
       ["b", "c"],
     ]);
+  });
+
+  it("should return combinations of the elements of an array in arrays of 1", () => {
+    const actual = getArrayCombinations(["a", "b", "c"], 1);
+
+    expect(actual).toEqual(["a", "b", "c"]);
+  });
+
+  it("should return am empty array when no possible combinations", () => {
+    const actual = getArrayCombinations(["a", "b", "c"], 4);
+
+    expect(actual).toEqual([]);
   });
 
   it("should return combinations of the elements of an array in arrays of 3", () => {
