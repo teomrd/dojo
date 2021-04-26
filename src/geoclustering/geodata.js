@@ -7,11 +7,11 @@ const generateGeodata = (n = 100) =>
       country: faker.address.country(),
       countryCode: faker.address.countryCode(),
       lng: faker.address.longitude(),
-      lat: faker.address.latitude()
+      lat: faker.address.latitude(),
     }));
 
 const geodata = {
-  data: generateGeodata(10000)
+  data: generateGeodata(10000),
 };
 
 module.exports = geodata;
