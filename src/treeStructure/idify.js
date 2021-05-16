@@ -1,33 +1,27 @@
 const id = "some-id";
 
-const idify = (node) => {
-  const { children } = node;
-  const newChildren = children ? { children: children.map(idify) } : {};
-
-  return {
-    id,
-    ...node,
-    ...newChildren,
-  };
-};
-
-const toggleChildren = (node) => ({
+const idifyNode = (node) => ({
   ...node,
-  children: node.children ? undefined : node._children,
-  _children: node.children ? node.children : undefined,
+  id,
 });
 
-const traverse = (node) => {
+const collapseNodeChildren = (node) => ({
+  ...node,
+  children: undefined,
+  _children: node.children,
+});
+
+const traverse = (node, fn) => {
   const { children, ...rest } = node;
 
-  return toggleChildren({
+  return fn({
     ...rest,
-    ...(children ? { children: children.map(traverse) } : {}),
+    ...(children ? { children: children.map((c) => traverse(c, fn)) } : {}),
   });
 };
 
 module.exports = {
-  idify,
+  idifyNode,
   traverse,
-  toggleChildren,
+  collapseNodeChildren,
 };
