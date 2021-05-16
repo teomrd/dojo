@@ -11,6 +11,23 @@ const idify = (node) => {
   };
 };
 
+const toggleChildren = (node) => ({
+  ...node,
+  children: node.children ? undefined : node._children,
+  _children: node.children ? node.children : undefined,
+});
+
+const traverse = (node) => {
+  const { children, ...rest } = node;
+
+  return toggleChildren({
+    ...rest,
+    ...(children ? { children: children.map(traverse) } : {}),
+  });
+};
+
 module.exports = {
   idify,
+  traverse,
+  toggleChildren,
 };
