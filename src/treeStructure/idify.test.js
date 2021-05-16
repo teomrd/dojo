@@ -1,4 +1,10 @@
-const { traverse, collapseNodeChildren, idifyNode } = require("./idify");
+const {
+  traverse,
+  collapseNodeChildren,
+  expandNodeChildren,
+  idifyNode,
+  toggleNodeChildren,
+} = require("./idify");
 
 const id = "some-id";
 
@@ -128,6 +134,95 @@ describe("tree structure", () => {
       };
 
       expect(actual).toEqual(expected);
+    });
+
+    it("should collapse all children nodes when toggled once", () => {
+      const actual = traverse(tree, toggleNodeChildren);
+      const expected = {
+        name: "root",
+        _children: [
+          {
+            name: "foo",
+            _children: [
+              {
+                name: "foo-foo",
+              },
+              {
+                name: "foo-bar",
+              },
+            ],
+          },
+          {
+            name: "bar",
+            _children: [
+              {
+                name: "bar-foo",
+                _children: [
+                  {
+                    name: "bar-foo-1",
+                  },
+                  {
+                    name: "bar-bar-1",
+                  },
+                ],
+              },
+              {
+                name: "bar-bar",
+              },
+            ],
+          },
+        ],
+      };
+
+      expect(actual).toEqual(expected);
+    });
+
+    it("should expand all children nodes with expandNode", () => {
+      const collapsedTree = {
+        name: "root",
+        _children: [
+          {
+            name: "foo",
+            _children: [
+              {
+                name: "foo-foo",
+              },
+              {
+                name: "foo-bar",
+              },
+            ],
+          },
+          {
+            name: "bar",
+            _children: [
+              {
+                name: "bar-foo",
+                _children: [
+                  {
+                    name: "bar-foo-1",
+                  },
+                  {
+                    name: "bar-bar-1",
+                  },
+                ],
+              },
+              {
+                name: "bar-bar",
+              },
+            ],
+          },
+        ],
+      };
+      const actual = traverse(collapsedTree, expandNodeChildren, "_children");
+
+      expect(actual).toEqual(tree);
+    });
+
+    it("should bring root to original state when collapsed and expanded", () => {
+      const collapsedTree = traverse(tree, collapseNodeChildren);
+      const actual = traverse(collapsedTree, expandNodeChildren, "_children");
+
+      expect(actual).toEqual(tree);
     });
   });
 });
