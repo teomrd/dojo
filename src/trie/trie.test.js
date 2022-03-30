@@ -46,17 +46,28 @@ describe("trie data structure", () => {
 
       expect(t.search("w")).toEqual({
         watching: 3,
-        watcher: 1,
-        watch: 1,
         where: 2,
-        was: 1,
         words: 2,
+        was: 1,
+        watch: 1,
+        watcher: 1,
       });
+
+      expect(t.getMatchingWords("w")).toEqual([
+        "watching",
+        "where",
+        "words",
+        "was",
+        "watch",
+        "watcher",
+      ]);
 
       expect(t.search("a")).toEqual({
         awake: 1,
         awe: 1,
       });
+
+      expect(t.getMatchingWords("a")).toEqual(["awake", "awe"]);
     });
   });
 });

@@ -1,3 +1,13 @@
+const groupByFrequency = (entries) => {
+  return Object.entries(entries).reduce((acc, [word, frequency]) => {
+    const cc = acc[frequency] || [];
+    return {
+      ...acc,
+      [frequency]: [word, ...cc],
+    };
+  }, {});
+};
+
 const Node = () => ({
   char: null,
   children: {},
@@ -72,6 +82,15 @@ const Trie = () => {
       });
 
       return node.getWords(prefix);
+    },
+    // get sorted matching words
+    // first by frequency
+    // and then alphabetically
+    getMatchingWords: function (prefix = "") {
+      const frequencyGroups = groupByFrequency(this.search(prefix));
+      return Object.keys(frequencyGroups)
+        .sort((a, b) => parseInt(b, 10) - parseInt(a, 10))
+        .flatMap((key) => frequencyGroups[key].sort());
     },
   };
 };
