@@ -1,5 +1,3 @@
-let dictionary = {};
-
 const Node = () => {
   return {
     char: null,
@@ -14,24 +12,24 @@ const Node = () => {
     contains: function (char) {
       return Object.keys(this.children).includes(char);
     },
-    getChildNodesWords: function (nodes = [], prefix) {
+    getChildNodesWords: function (nodes = [], prefix, dictionary) {
       for (const node of nodes) {
-        node.getWords(`${prefix}${node.char}`);
+        node.getWords(`${prefix}${node.char}`, dictionary);
       }
     },
-    getWords: function (prefix) {
+    getWords: function (prefix, dictionary) {
       if (this.isWord()) {
-        dictionary = {
-          ...dictionary,
-          [prefix]: this.frequency,
-        };
+        dictionary.push({
+          word: prefix,
+          frequency: this.frequency,
+        });
       }
 
       if (this.hasChildren()) {
         const childNodes = Object.keys(this.children).map((char) => {
           return this.children[char];
         });
-        this.getChildNodesWords(childNodes, prefix);
+        this.getChildNodesWords(childNodes, prefix, dictionary);
       }
 
       return dictionary;
@@ -78,12 +76,19 @@ const Trie = () => {
     },
     search: function (prefix = "") {
       let node = rootNode;
-
+      let dictionary = [];
       prefix.split("").forEach((character) => {
         node = node.children[character];
       });
 
-      return node.getWords(prefix);
+      return node
+        .getWords(prefix, dictionary)
+        .reduce((acc, { word, frequency }) => {
+          return {
+            ...acc,
+            [word]: frequency,
+          };
+        }, {});
     },
   };
 };
