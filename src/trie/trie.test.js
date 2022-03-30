@@ -28,5 +28,35 @@ describe("trie data structure", () => {
         was: 1,
       });
     });
+
+    it("should return all the words matching the given prefix", () => {
+      const t = Trie();
+      t.insert("awe");
+      t.insert("words");
+      t.insert("watch");
+      t.insert("watcher");
+      t.insert("awake");
+      t.insert("watching");
+      t.insert("watching");
+      t.insert("watching");
+      t.insert("words");
+      t.insert("where");
+      t.insert("where");
+      t.insert("was");
+
+      expect(t.search("w")).toEqual({
+        watching: 3,
+        watcher: 1,
+        watch: 1,
+        where: 2,
+        was: 1,
+        words: 2,
+      });
+
+      expect(t.search("a")).toEqual({
+        awake: 1,
+        awe: 1,
+      });
+    });
   });
 });
