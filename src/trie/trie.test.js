@@ -14,11 +14,16 @@ describe("trie data structure", () => {
     it("should return all the words matching the given prefix", () => {
       const t = Trie();
       t.insert("watch");
+      t.insert("watcher");
+      t.insert("watching");
+      t.insert("watching");
       t.insert("where");
       t.insert("where");
       t.insert("was");
 
       expect(t.search("wa")).toEqual({
+        watching: 2,
+        watcher: 1,
         watch: 1,
         was: 1,
       });

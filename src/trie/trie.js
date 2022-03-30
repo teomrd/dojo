@@ -1,3 +1,5 @@
+let dictionary = {};
+
 const Node = () => {
   return {
     char: null,
@@ -12,7 +14,12 @@ const Node = () => {
     contains: function (char) {
       return Object.keys(this.children).includes(char);
     },
-    getWord: function (prefix, dictionary = {}) {
+    getChildNodesWords: function (nodes = [], prefix) {
+      for (const node of nodes) {
+        node.getWords(`${prefix}${node.char}`);
+      }
+    },
+    getWords: function (prefix) {
       if (this.isWord()) {
         dictionary = {
           ...dictionary,
@@ -20,23 +27,14 @@ const Node = () => {
         };
       }
 
-      for (const char of Object.keys(this.children)) {
-        const newNode = this.children[char];
-        return newNode.getWord(`${prefix}${newNode.char}`, dictionary);
+      if (this.hasChildren()) {
+        const childNodes = Object.keys(this.children).map((char) => {
+          return this.children[char];
+        });
+        this.getChildNodesWords(childNodes, prefix);
       }
 
       return dictionary;
-    },
-    getWords: function (prefix) {
-      return Object.keys(this.children).reduce((acc, currentChar) => {
-        const newNode = this.children[currentChar];
-        const word = newNode.getWord(`${prefix}${newNode.char}`);
-
-        return {
-          ...acc,
-          ...word,
-        };
-      }, {});
     },
     increaseFrequency: function () {
       this.frequency = this.frequency + 1;
@@ -80,6 +78,7 @@ const Trie = () => {
     },
     search: function (prefix = "") {
       let node = rootNode;
+
       prefix.split("").forEach((character) => {
         node = node.children[character];
       });
