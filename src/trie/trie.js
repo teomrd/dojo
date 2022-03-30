@@ -12,24 +12,17 @@ const Node = () => {
     contains: function (char) {
       return Object.keys(this.children).includes(char);
     },
-    getChildNodesWords: function (nodes = [], prefix, dictionary) {
-      for (const node of nodes) {
-        node.getWords(`${prefix}${node.char}`, dictionary);
-      }
-    },
-    getWords: function (prefix, dictionary) {
+    getWords: function (prefix, dictionary = {}) {
       if (this.isWord()) {
-        dictionary.push({
-          word: prefix,
-          frequency: this.frequency,
-        });
+        // Super weirdly this DOES NOT work by adding the word
+        // in the object with the spread operator.
+        dictionary[prefix] = this.frequency;
       }
 
       if (this.hasChildren()) {
-        const childNodes = Object.keys(this.children).map((char) => {
-          return this.children[char];
-        });
-        this.getChildNodesWords(childNodes, prefix, dictionary);
+        for (const node of Object.values(this.children)) {
+          node.getWords(`${prefix}${node.char}`, dictionary);
+        }
       }
 
       return dictionary;
@@ -76,19 +69,11 @@ const Trie = () => {
     },
     search: function (prefix = "") {
       let node = rootNode;
-      let dictionary = [];
       prefix.split("").forEach((character) => {
         node = node.children[character];
       });
 
-      return node
-        .getWords(prefix, dictionary)
-        .reduce((acc, { word, frequency }) => {
-          return {
-            ...acc,
-            [word]: frequency,
-          };
-        }, {});
+      return node.getWords(prefix);
     },
   };
 };
