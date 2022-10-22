@@ -7,7 +7,7 @@
     "test": "jest",
     "dev": "webpack-dev-server --mode development --open",
     "build": "webpack --mode production",
-    "lint": "eslint 'src/**/*js'"
+    "lint": "eslint --ext .js src"
   },
   "author": "teomrd",
   "license": "ISC",
