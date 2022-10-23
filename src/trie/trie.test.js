@@ -70,4 +70,15 @@ describe("trie data structure", () => {
       expect(t.getMatchingWords("a")).toEqual(["awake", "awe"]);
     });
   });
+
+  describe("Total number of Words", () => {
+    const t = Trie();
+    t.insert("was");
+    t.insert("was");
+    t.insert("where");
+
+    it("should return the number of words it contains", () => {
+      expect(t.getNumberOfWords()).toEqual(2);
+    });
+  });
 });

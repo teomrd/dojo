@@ -92,6 +92,7 @@ const Trie = () => {
         .sort((a, b) => parseInt(b, 10) - parseInt(a, 10))
         .flatMap((key) => frequencyGroups[key].sort());
     },
+    getNumberOfWords: function () {},
   };
 };
 
