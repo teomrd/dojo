@@ -21,7 +21,7 @@ const Node = () => ({
   contains: function (char) {
     return Object.keys(this.children).includes(char);
   },
-  getWords: function (prefix, dictionary = {}) {
+  getDictionary: function (prefix, dictionary = {}) {
     if (this.isWord()) {
       dictionary = {
         ...dictionary,
@@ -31,11 +31,24 @@ const Node = () => ({
 
     if (this.hasChildren()) {
       for (const node of Object.values(this.children)) {
-        dictionary = node.getWords(`${prefix}${node.char}`, dictionary);
+        dictionary = node.getDictionary(`${prefix}${node.char}`, dictionary);
       }
     }
 
     return dictionary;
+  },
+  getWords: function (word = "", words = []) {
+    if (this.isWord()) {
+      words = [...words, word];
+    }
+
+    if (this.hasChildren()) {
+      for (const node of Object.values(this.children)) {
+        words = node.getWords(`${word}${node.char}`, words);
+      }
+    }
+
+    return words;
   },
   countWords: function (numberOfWords = 0) {
     if (this.isWord()) {
@@ -95,7 +108,7 @@ const Trie = () => {
         node = node.children[character];
       });
 
-      return node.getWords(prefix);
+      return node.getDictionary(prefix);
     },
     // get sorted matching words
     // first by frequency
@@ -105,6 +118,9 @@ const Trie = () => {
       return Object.keys(frequencyGroups)
         .sort((a, b) => parseInt(b, 10) - parseInt(a, 10))
         .flatMap((key) => frequencyGroups[key].sort());
+    },
+    getWords: function () {
+      return rootNode.getWords();
     },
     getNumberOfWords: function () {
       return rootNode.countWords();

@@ -90,4 +90,30 @@ describe("trie data structure", () => {
       expect(t.getNumberOfWords()).toEqual(5);
     });
   });
+
+  describe("Find all words stored in Trie", () => {
+    const t = Trie();
+    t.insert("was");
+    t.insert("was");
+    t.insert("where");
+
+    it("should return the list of words it contains", () => {
+      expect(t.getWords()).toEqual(["was", "where"]);
+    });
+
+    it("should return the updated list of words", () => {
+      t.insert("in");
+      t.insert("in");
+      t.insert("international");
+      t.insert("intern");
+
+      expect(t.getWords()).toEqual([
+        "was",
+        "where",
+        "in",
+        "intern",
+        "international",
+      ]);
+    });
+  });
 });
