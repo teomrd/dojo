@@ -80,5 +80,14 @@ describe("trie data structure", () => {
     it("should return the number of words it contains", () => {
       expect(t.getNumberOfWords()).toEqual(2);
     });
+
+    it("should return the number of words", () => {
+      t.insert("in");
+      t.insert("in");
+      t.insert("international");
+      t.insert("intern");
+
+      expect(t.getNumberOfWords()).toEqual(5);
+    });
   });
 });

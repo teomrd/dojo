@@ -23,18 +23,32 @@ const Node = () => ({
   },
   getWords: function (prefix, dictionary = {}) {
     if (this.isWord()) {
-      // Super weirdly this DOES NOT work by adding the word
-      // in the object with the spread operator.
-      dictionary[prefix] = this.frequency;
+      dictionary = {
+        ...dictionary,
+        [prefix]: this.frequency,
+      };
     }
 
     if (this.hasChildren()) {
       for (const node of Object.values(this.children)) {
-        node.getWords(`${prefix}${node.char}`, dictionary);
+        dictionary = node.getWords(`${prefix}${node.char}`, dictionary);
       }
     }
 
     return dictionary;
+  },
+  countWords: function (numberOfWords = 0) {
+    if (this.isWord()) {
+      numberOfWords++;
+    }
+
+    if (this.hasChildren()) {
+      for (const node of Object.values(this.children)) {
+        numberOfWords = node.countWords(numberOfWords);
+      }
+    }
+
+    return numberOfWords;
   },
   increaseFrequency: function () {
     this.frequency = this.frequency + 1;
@@ -92,7 +106,9 @@ const Trie = () => {
         .sort((a, b) => parseInt(b, 10) - parseInt(a, 10))
         .flatMap((key) => frequencyGroups[key].sort());
     },
-    getNumberOfWords: function () {},
+    getNumberOfWords: function () {
+      return rootNode.countWords();
+    },
   };
 };
 
