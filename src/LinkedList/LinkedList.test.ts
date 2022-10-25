@@ -1,4 +1,4 @@
-const { createListNode } = require("./LinkedList");
+import { createListNode } from "./LinkedList";
 
 describe("Linked List", () => {
   it("should let you create a Linked List", () => {
