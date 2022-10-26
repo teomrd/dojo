@@ -15,17 +15,28 @@ describe("Linked List", () => {
   });
 
   it("should create a Singly Linked List", () => {
-    const list = LinkedList(1).next(2).next(3).next("end");
+    const list = LinkedList(1)
+      .next(2)
+      .next(3)
+      .next("end")
+      .head("start")
+      .next("this is the end");
 
     expect(list.value).toEqual({
-      value: 1,
+      value: "start",
       next: {
-        value: 2,
+        value: 1,
         next: {
-          value: 3,
+          value: 2,
           next: {
-            value: "end",
-            next: null,
+            value: 3,
+            next: {
+              value: "end",
+              next: {
+                value: "this is the end",
+                next: null,
+              },
+            },
           },
         },
       },

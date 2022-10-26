@@ -13,16 +13,23 @@ export const LinkedList = (
 ): {
   value: ListNode;
   next: Function;
+  head: Function;
 } => {
   const headNode = createListNode(initialValue);
-  let previousNode = headNode;
+  let leafNode = headNode;
 
   return {
     value: headNode,
     next: function (value: any) {
       const node = createListNode(value);
-      previousNode.next = node;
-      previousNode = node;
+      leafNode.next = node;
+      leafNode = node;
+
+      return this;
+    },
+    head: function (value: any) {
+      const node = createListNode(value, this.value);
+      this.value = node;
 
       return this;
     },
