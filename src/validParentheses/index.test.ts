@@ -8,10 +8,12 @@ describe("Valid Parentheses", () => {
     ["([{}])", true],
     ["([{})", false],
     ["([}{])", false],
-  ])(
-    "should validate the parentheses, according to the rules",
-    (input, expected) => {
-      expect(isValid(input)).toBe(expected);
-    }
-  );
+    ["()(", false],
+    ["))))", false],
+    ["())", false],
+    [")()", false],
+    ["((()", false],
+  ])("for %s should return %s", (input, expected) => {
+    expect(isValid(input)).toBe(expected);
+  });
 });
