@@ -13,6 +13,7 @@ describe("Valid Parentheses", () => {
     ["())", false],
     [")()", false],
     ["((()", false],
+    ["([)]", false],
   ])("for %s should return %s", (input, expected) => {
     expect(isValid(input)).toBe(expected);
   });
