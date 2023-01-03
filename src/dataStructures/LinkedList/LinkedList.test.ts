@@ -90,4 +90,57 @@ describe("Linked List", () => {
       });
     });
   });
+
+  describe("Reverse a Linked List", () => {
+    it("should reverse a linked list", () => {
+      const list = LinkedList(1)
+        .insert(2)
+        .insert(3)
+        .insert(4)
+        .insert(5)
+        .insert(6);
+
+      expect(list).toEqual({
+        value: 1,
+        next: {
+          value: 2,
+          next: {
+            value: 3,
+            next: {
+              value: 4,
+              next: {
+                value: 5,
+                next: {
+                  value: 6,
+                  next: null,
+                },
+              },
+            },
+          },
+        },
+      });
+
+      const reversedList = list.reverse();
+
+      expect(reversedList).toEqual({
+        value: 6,
+        next: {
+          value: 5,
+          next: {
+            value: 4,
+            next: {
+              value: 3,
+              next: {
+                value: 2,
+                next: {
+                  value: 1,
+                  next: null,
+                },
+              },
+            },
+          },
+        },
+      });
+    });
+  });
 });
